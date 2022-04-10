@@ -38,7 +38,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getUserData() {
         val user = viewModel.getUser()
-        AppUtils.showToast(this, user.username)
     }
 
     private fun setupViewModel() {
