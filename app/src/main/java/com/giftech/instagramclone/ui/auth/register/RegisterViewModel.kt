@@ -2,9 +2,11 @@ package com.giftech.instagramclone.ui.auth.register
 
 import androidx.lifecycle.ViewModel
 import com.giftech.instagramclone.core.data.MainRepository
+import com.giftech.instagramclone.core.data.model.User
 
 class RegisterViewModel(private val mainRepository: MainRepository):ViewModel() {
 
-    fun checkLogin():Boolean = mainRepository.checkLogin()
+    val isLogged = mainRepository.isLogged
+    fun register(user:User) = mainRepository.register(user)
 
 }
