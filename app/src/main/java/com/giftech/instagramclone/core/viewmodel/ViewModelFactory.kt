@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.core.data.MainRepository
 import com.giftech.instagramclone.core.di.Injection
+import com.giftech.instagramclone.ui.splash.SplashViewModel
 
 class ViewModelFactory private constructor(private val mainRepository: MainRepository)
     : ViewModelProvider.NewInstanceFactory(){
@@ -13,9 +14,9 @@ class ViewModelFactory private constructor(private val mainRepository: MainRepos
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when{
-//            modelClass.isAssignableFrom(HomeViewModel::class.java)->{
-//                HomeViewModel(mainRepository) as T
-//            }
+            modelClass.isAssignableFrom(SplashViewModel::class.java)->{
+                SplashViewModel(mainRepository) as T
+            }
 
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

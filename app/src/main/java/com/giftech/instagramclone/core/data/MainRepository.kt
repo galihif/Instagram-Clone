@@ -20,4 +20,8 @@ class MainRepository private constructor(
             }
     }
 
+    fun checkLogin():Boolean{
+        return !localDataSource.getUser().username.equals("")
+    }
+
 }
