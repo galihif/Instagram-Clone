@@ -37,6 +37,16 @@ class MainRepository private constructor(
 
     }
 
+    fun logout(){
+        val user = User(
+            username = "",
+            email = "",
+            password = "",
+            token = ""
+        )
+        localDataSource.saveUser(user)
+    }
+
     fun getUser():User{
         return localDataSource.getUser()
     }

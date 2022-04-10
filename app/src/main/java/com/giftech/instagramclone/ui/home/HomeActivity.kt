@@ -9,9 +9,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.R
-import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityHomeBinding
+import com.giftech.instagramclone.ui.auth.login.LoginActivity
 import com.giftech.instagramclone.ui.post.selectphoto.SelectPhotoActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -54,9 +54,19 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.item_add -> openSelectPhoto()
-            R.id.item_logout -> AppUtils.showToast(this, "Logout")
+            R.id.item_logout -> logOutUser()
         }
         return true
+    }
+
+    private fun logOutUser() {
+        viewModel.logout()
+        moveToLogin()
+        finish()
+    }
+
+    private fun moveToLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun openSelectPhoto() {

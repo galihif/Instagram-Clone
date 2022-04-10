@@ -8,4 +8,6 @@ class HomeViewModel(private val mainRepository: MainRepository):ViewModel() {
 
     fun getUser():User = mainRepository.getUser()
 
+    fun logout() = mainRepository.logout()
+
 }
