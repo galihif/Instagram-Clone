@@ -9,7 +9,7 @@ class ApiConfig {
 
     companion object{
 
-        private const val ROOT = "https://story-api.dicoding.dev/v1"
+        private const val ROOT = "https://story-api.dicoding.dev/v1/"
 
         fun getApiService():ApiService{
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
