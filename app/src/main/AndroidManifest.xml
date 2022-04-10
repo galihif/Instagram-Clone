@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.giftech.instagramclone">
 
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InstagramClone">
-        <activity android:name=".ui.post.selectphoto.SelectPhotoActivity"></activity>
+        <activity android:name=".ui.post.selectphoto.SelectPhotoActivity"/>
         <activity android:name=".ui.post.camera.CameraActivity" />
         <activity android:name=".ui.post.detail.DetailActivity" />
         <activity android:name=".ui.post.addpost.AddPostActivity" />
