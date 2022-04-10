@@ -9,7 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InstagramClone">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.post.selectphoto.SelectPhotoActivity"></activity>
+        <activity android:name=".ui.post.camera.CameraActivity" />
+        <activity android:name=".ui.post.detail.DetailActivity" />
+        <activity android:name=".ui.post.addpost.AddPostActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.auth.register.RegisterActivity" />
+        <activity android:name=".ui.auth.login.LoginActivity" />
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
