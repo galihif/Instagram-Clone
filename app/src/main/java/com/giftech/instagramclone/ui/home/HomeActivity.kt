@@ -1,6 +1,7 @@
 package com.giftech.instagramclone.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -11,6 +12,7 @@ import com.giftech.instagramclone.R
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityHomeBinding
+import com.giftech.instagramclone.ui.post.selectphoto.SelectPhotoActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -52,9 +54,13 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.item_add -> AppUtils.showToast(this, "Add")
+            R.id.item_add -> openSelectPhoto()
             R.id.item_logout -> AppUtils.showToast(this, "Logout")
         }
         return true
+    }
+
+    private fun openSelectPhoto() {
+        startActivity(Intent(this, SelectPhotoActivity::class.java))
     }
 }
