@@ -21,7 +21,6 @@ object AppUtils {
     fun ImageView.loadImage(imageSource : String?) {
         Glide.with(context)
             .load(imageSource)
-            .centerCrop()
             .into(this)
     }
 

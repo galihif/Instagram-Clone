@@ -1,11 +1,13 @@
 package com.giftech.instagramclone.core.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.utils.AppUtils.loadImage
 import com.giftech.instagramclone.databinding.ItemPostBinding
+import com.giftech.instagramclone.ui.post.detail.DetailActivity
 
 class PostAdapter:RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
@@ -35,6 +37,11 @@ class PostAdapter:RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
                 header.tvUsername.text = post.username
                 ivImage.loadImage(post.photo)
                 tvDesc.text = post.caption
+            }
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_POST, post)
+                itemView.context.startActivity(intent)
             }
         }
     }
