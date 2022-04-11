@@ -3,10 +3,8 @@ package com.giftech.instagramclone.core.ui
 import android.content.Context
 import android.graphics.Canvas
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
 
 
@@ -35,14 +33,14 @@ class MyEditText : AppCompatEditText {
 
             }
             override fun afterTextChanged(s: Editable) {
-                if(!isValidEmail(s.toString())){
-                    setError("Email Format is Wrong")
+                if(s.length < 6){
+                    setError("Minimum characters is 6")
                 }
             }
         })
     }
 
-    fun isValidEmail(target: CharSequence?): Boolean {
-        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
-    }
+//    fun isValidEmail(target: CharSequence?): Boolean {
+//        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
+//    }
 }
