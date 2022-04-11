@@ -75,7 +75,7 @@
         android:id="@+id/line_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#C3C3C3"
+        android:background="@color/separator"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/container_signup"
         app:layout_constraintEnd_toEndOf="parent"
