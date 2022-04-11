@@ -3,6 +3,7 @@ package com.giftech.instagramclone.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -27,6 +28,15 @@ class HomeActivity : AppCompatActivity() {
         setupViewModel()
 
         getUserData()
+        getAllPost()
+    }
+
+    private fun getAllPost() {
+        viewModel.getAllPost().observe(this){
+            it.forEach {
+                Log.d("GALIH", it.photo)
+            }
+        }
     }
 
     private fun showActionBar() {
