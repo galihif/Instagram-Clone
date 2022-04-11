@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.core.data.model.User
+import com.giftech.instagramclone.core.ui.LoadingDialog
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityRegisterBinding
@@ -13,6 +14,7 @@ import com.giftech.instagramclone.ui.auth.login.LoginActivity
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var viewModel: RegisterViewModel
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -20,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
         hideActionBar()
 
         setupViewmodel()
+        setupLoading()
 
         binding.btnLogin.setOnClickListener {
             moveToLogin()
@@ -31,6 +34,14 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.loading.observe(this){loading ->
+            if (loading) loadingDialog.show() else loadingDialog.dismiss()
+        }
+
+    }
+
+    private fun setupLoading() {
+        loadingDialog = LoadingDialog(this,false)
     }
 
     private fun registerUser() {
@@ -79,4 +90,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun hideActionBar() {
         supportActionBar?.hide()
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.loading.removeObservers(this)
+    }
+
 }

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.giftech.instagramclone.core.ui.LoadingDialog
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityAddPostBinding
@@ -20,6 +21,7 @@ class AddPostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPostBinding
     private lateinit var viewModel: AddPostViewModel
+    private lateinit var loadingDialog: LoadingDialog
     private var photoFile:File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,7 @@ class AddPostActivity : AppCompatActivity() {
         hideActionBar()
 
         setupViewmodel()
+        setupLoading()
 
         getPhotoFile()
 
@@ -47,6 +50,14 @@ class AddPostActivity : AppCompatActivity() {
                 })
             }
         }
+
+        viewModel.loading.observe(this){loading ->
+            if (loading) loadingDialog.show() else loadingDialog.dismiss()
+        }
+    }
+
+    private fun setupLoading() {
+        loadingDialog = LoadingDialog(this,false)
     }
 
     private fun moveToHome() {

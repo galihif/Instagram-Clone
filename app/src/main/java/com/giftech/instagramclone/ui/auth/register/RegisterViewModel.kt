@@ -7,7 +7,7 @@ import com.giftech.instagramclone.core.data.model.User
 
 class RegisterViewModel(private val mainRepository: MainRepository):ViewModel() {
 
-    val isLogged = mainRepository.isLogged
+    val loading = mainRepository.loading
     fun register(user:User):LiveData<Boolean> = mainRepository.register(user)
 
 }

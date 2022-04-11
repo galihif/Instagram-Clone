@@ -8,6 +8,8 @@ import com.giftech.instagramclone.core.data.model.User
 
 class HomeViewModel(private val mainRepository: MainRepository):ViewModel() {
 
+    val loading = mainRepository.loading
+
     fun getUser():User = mainRepository.getUser()
 
     fun logout() = mainRepository.logout()

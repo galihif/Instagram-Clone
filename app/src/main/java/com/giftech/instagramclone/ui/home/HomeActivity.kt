@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giftech.instagramclone.R
 import com.giftech.instagramclone.core.adapter.PostAdapter
+import com.giftech.instagramclone.core.ui.LoadingDialog
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityHomeBinding
@@ -22,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var viewModel: HomeViewModel
     private lateinit var adapter:PostAdapter
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -29,8 +31,16 @@ class HomeActivity : AppCompatActivity() {
         showActionBar()
         setupViewModel()
         setupAdapter()
+        setupLoading()
         getUserData()
         getAllPost()
+        viewModel.loading.observe(this){loading ->
+            if (loading) loadingDialog.show() else loadingDialog.dismiss()
+        }
+    }
+
+    private fun setupLoading() {
+        loadingDialog = LoadingDialog(this,false)
     }
 
     private fun setupAdapter() {
@@ -95,5 +105,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun openSelectPhoto() {
         startActivity(Intent(this, SelectPhotoActivity::class.java))
+    }
+    override fun onPause() {
+        super.onPause()
+        viewModel.loading.removeObservers(this)
     }
 }
