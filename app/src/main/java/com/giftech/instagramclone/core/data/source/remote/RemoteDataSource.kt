@@ -5,11 +5,15 @@ import com.giftech.instagramclone.core.data.model.User
 import com.giftech.instagramclone.core.data.source.remote.network.ApiService
 import com.giftech.instagramclone.core.data.source.remote.request.LoginRequest
 import com.giftech.instagramclone.core.data.source.remote.request.RegisterRequest
-import com.giftech.instagramclone.core.data.source.remote.response.LoginResponse
-import com.giftech.instagramclone.core.data.source.remote.response.LoginResult
-import com.giftech.instagramclone.core.data.source.remote.response.RegisterResponse
+import com.giftech.instagramclone.core.data.source.remote.response.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Response
+import java.io.File
 
 class RemoteDataSource private constructor(private val apiService: ApiService){
 
@@ -53,12 +57,68 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             })
     }
 
+    fun uploadPost(photoFile: File, desc:String, token:String, callback: UploadPostCallback){
+        val description = desc.toRequestBody("text/plain".toMediaType())
+        val requestImageFile = photoFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "photo",
+            photoFile.name,
+            requestImageFile
+        )
+        apiService.uploadPost(imageMultipart,description,token)
+            .enqueue(object :retrofit2.Callback<UploadPostResponse>{
+                override fun onResponse(
+                    call: Call<UploadPostResponse>,
+                    response: Response<UploadPostResponse>
+                ) {
+                    if(response.isSuccessful){
+                        callback.onResponse(response.body()!!)
+                    }
+                }
+
+                override fun onFailure(call: Call<UploadPostResponse>, t: Throwable) {
+                    Log.d("REMOTE", t.message.toString())
+                }
+
+            })
+    }
+
+    fun getAllPost(token:String, callback: GetPostCallback){
+        apiService.getAllPost(token)
+            .enqueue(object :retrofit2.Callback<GetAllPostResponse>{
+                override fun onResponse(
+                    call: Call<GetAllPostResponse>,
+                    response: Response<GetAllPostResponse>
+                ) {
+                    if(response.isSuccessful){
+                        callback.onResponse(response.body()?.listStory!!)
+                    }
+                }
+
+                override fun onFailure(call: Call<GetAllPostResponse>, t: Throwable) {
+                    Log.d("REMOTE", t.message.toString())
+                }
+
+            })
+    }
+
     interface RegisterCallback{
         fun onResponse(response: RegisterResponse)
         fun onError(error:String)
     }
+
     interface LoginCallback{
         fun onResponse(response: LoginResult)
+        fun onError(error:String)
+    }
+
+    interface UploadPostCallback{
+        fun onResponse(response: UploadPostResponse)
+        fun onError(error:String)
+    }
+
+    interface GetPostCallback{
+        fun onResponse(response: List<StoryItem>)
         fun onError(error:String)
     }
 

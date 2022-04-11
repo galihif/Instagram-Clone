@@ -2,11 +2,16 @@ package com.giftech.instagramclone.core.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.data.model.User
 import com.giftech.instagramclone.core.data.source.local.LocalDataSource
 import com.giftech.instagramclone.core.data.source.remote.RemoteDataSource
 import com.giftech.instagramclone.core.data.source.remote.response.LoginResult
 import com.giftech.instagramclone.core.data.source.remote.response.RegisterResponse
+import com.giftech.instagramclone.core.data.source.remote.response.StoryItem
+import com.giftech.instagramclone.core.data.source.remote.response.UploadPostResponse
+import com.giftech.instagramclone.core.utils.Mapper
+import java.io.File
 
 class MainRepository private constructor(
     private val localDataSource: LocalDataSource,
@@ -91,6 +96,45 @@ class MainRepository private constructor(
 
         })
         return isSuccess
+    }
+
+    fun uploadPost(photo: File, desc:String):LiveData<Boolean>{
+        _loading.postValue(true)
+        val success = MutableLiveData<Boolean>()
+        val token = Mapper.getBearerToken(localDataSource.getUser().token)
+        remoteDataSource.uploadPost(photo, desc, token,
+            object : RemoteDataSource.UploadPostCallback{
+                override fun onResponse(response: UploadPostResponse) {
+                    success.postValue(true)
+                    _loading.postValue(false)
+                }
+
+                override fun onError(error: String) {
+                    _loading.postValue(false)
+                }
+
+            })
+        return success
+    }
+
+    fun getAllPost():LiveData<List<Post>>{
+        _loading.postValue(true)
+        val listPost = MutableLiveData<List<Post>>()
+        val token = Mapper.getBearerToken(localDataSource.getUser().token)
+        remoteDataSource.getAllPost(token,
+        object : RemoteDataSource.GetPostCallback{
+            override fun onResponse(response: List<StoryItem>) {
+                val listRes = Mapper.listStoryItemToListPost(response)
+                listPost.postValue(listRes)
+                _loading.postValue(false)
+            }
+
+            override fun onError(error: String) {
+                _loading.postValue(false)
+            }
+
+        })
+        return listPost
     }
 
 }
