@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.core.data.model.User
+import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityRegisterBinding
 import com.giftech.instagramclone.ui.auth.login.LoginActivity
-import com.giftech.instagramclone.ui.home.HomeActivity
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -31,9 +31,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.isLogged.observe(this){
-            moveToHome(it)
-        }
     }
 
     private fun registerUser() {
@@ -43,14 +40,12 @@ class RegisterActivity : AppCompatActivity() {
             user.email = etEmail.text.toString()
             user.password = etPassword.text.toString()
         }
-        viewModel.register(user)
-    }
-
-    private fun moveToHome(isLogged: Boolean) {
-        if(isLogged){
-            startActivity(Intent(this,HomeActivity::class.java))
-            finish()
-        }
+        viewModel.register(user).observe(this, {isSuccess ->
+            if(isSuccess){
+                AppUtils.showToast(this, "Register Success, Please Log In")
+                moveToLogin()
+            }
+        })
     }
 
     private fun setupViewmodel() {
@@ -66,6 +61,10 @@ class RegisterActivity : AppCompatActivity() {
             }
             if(etPassword.text.isNullOrEmpty()){
                 etPassword.error = "Password must be filled"
+                return false
+            }
+            if(etPassword.text!!.length < 6){
+                etPassword.error = "Password minimum 6 characters"
                 return false
             }
         }
