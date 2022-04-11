@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.giftech.instagramclone.core.data.model.User
 import com.giftech.instagramclone.core.data.source.local.LocalDataSource
 import com.giftech.instagramclone.core.data.source.remote.RemoteDataSource
+import com.giftech.instagramclone.core.data.source.remote.response.LoginResult
+import com.giftech.instagramclone.core.data.source.remote.response.RegisterResponse
 
 class MainRepository private constructor(
     private val localDataSource: LocalDataSource,
@@ -30,11 +32,7 @@ class MainRepository private constructor(
     val isLogged:LiveData<Boolean> = _isLogged
 
     fun checkLogin():Boolean{
-        return !localDataSource.getUser().username.equals("")
-    }
-
-    fun login(user: User){
-
+        return localDataSource.getUser().username != ""
     }
 
     fun logout(){
@@ -51,9 +49,48 @@ class MainRepository private constructor(
         return localDataSource.getUser()
     }
 
-    fun register(user:User){
-        localDataSource.saveUser(user)
-        _isLogged.postValue(true)
+
+    fun login(user: User):LiveData<Boolean>{
+        _loading.postValue(true)
+        val isSuccess = MutableLiveData<Boolean>()
+        remoteDataSource.login(user, object : RemoteDataSource.LoginCallback{
+            override fun onResponse(response: LoginResult) {
+                isSuccess.postValue(true)
+                _loading.postValue(false)
+                val userRes = User(
+                    id = response.userId,
+                    username = response.name,
+                    token = response.token
+                )
+                localDataSource.saveUser(userRes)
+            }
+
+            override fun onError(error: String) {
+                isSuccess.postValue(false)
+                _loading.postValue(false)
+            }
+
+        })
+        return isSuccess
+    }
+
+
+    fun register(user:User):LiveData<Boolean>{
+        _loading.postValue(true)
+        val isSuccess = MutableLiveData<Boolean>()
+        remoteDataSource.register(user, object : RemoteDataSource.RegisterCallback{
+            override fun onResponse(response: RegisterResponse) {
+                isSuccess.postValue(true)
+                _loading.postValue(false)
+            }
+
+            override fun onError(error: String) {
+                isSuccess.postValue(false)
+                _loading.postValue(false)
+            }
+
+        })
+        return isSuccess
     }
 
 }
