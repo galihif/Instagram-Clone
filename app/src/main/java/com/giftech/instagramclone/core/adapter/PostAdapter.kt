@@ -1,8 +1,11 @@
 package com.giftech.instagramclone.core.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.utils.AppUtils.loadImage
@@ -39,9 +42,17 @@ class PostAdapter:RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
                 tvDesc.text = post.caption
             }
             itemView.setOnClickListener {
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        Pair(binding.ivImage, "photo"),
+                        Pair(binding.header.tvUsername, "username"),
+                        Pair(binding.tvDesc, "desc"),
+                    )
+
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_POST, post)
-                itemView.context.startActivity(intent)
+                itemView.context.startActivity(intent, optionsCompat.toBundle())
             }
         }
     }
