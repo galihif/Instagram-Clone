@@ -3,13 +3,14 @@ package com.giftech.instagramclone.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.giftech.instagramclone.R
+import com.giftech.instagramclone.core.adapter.PostAdapter
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityHomeBinding
@@ -20,22 +21,33 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var viewModel: HomeViewModel
+    private lateinit var adapter:PostAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         showActionBar()
         setupViewModel()
-
+        setupAdapter()
         getUserData()
         getAllPost()
     }
 
+    private fun setupAdapter() {
+        adapter = PostAdapter()
+    }
+
     private fun getAllPost() {
         viewModel.getAllPost().observe(this){
-            it.forEach {
-                Log.d("GALIH", it.photo)
-            }
+            adapter.setList(it)
+            showListPost()
+        }
+    }
+
+    private fun showListPost() {
+        with(binding.rvPost){
+            layoutManager = LinearLayoutManager(context)
+            adapter = this@HomeActivity.adapter
         }
     }
 

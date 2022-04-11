@@ -13,24 +13,24 @@
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="320dp"
         android:src="@drawable/example_post_image"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginVertical="8dp"
-        android:text="Miles Morales"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tv_username"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginHorizontal="8dp"-->
+<!--        android:layout_marginVertical="8dp"-->
+<!--        android:text="Miles Morales"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textStyle="bold"/>-->
 
     <TextView
         android:id="@+id/tv_desc"
-        android:layout_marginHorizontal="8dp"
+        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lorem Ipsum Kolor Sit Amet"/>
