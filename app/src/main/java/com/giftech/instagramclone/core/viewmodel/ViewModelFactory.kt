@@ -9,6 +9,7 @@ import com.giftech.instagramclone.core.di.Injection
 import com.giftech.instagramclone.ui.auth.login.LoginViewModel
 import com.giftech.instagramclone.ui.auth.register.RegisterViewModel
 import com.giftech.instagramclone.ui.home.HomeViewModel
+import com.giftech.instagramclone.ui.post.addpost.AddPostViewModel
 import com.giftech.instagramclone.ui.post.selectphoto.SelectPhotoViewModel
 import com.giftech.instagramclone.ui.splash.SplashViewModel
 
@@ -32,6 +33,9 @@ class ViewModelFactory private constructor(private val mainRepository: MainRepos
             }
             modelClass.isAssignableFrom(SelectPhotoViewModel::class.java)->{
                 SelectPhotoViewModel(mainRepository) as T
+            }
+            modelClass.isAssignableFrom(AddPostViewModel::class.java)->{
+                AddPostViewModel(mainRepository) as T
             }
 
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)

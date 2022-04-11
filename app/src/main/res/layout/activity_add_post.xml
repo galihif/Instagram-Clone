@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.post.addpost.AddPostActivity">
 
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_template_photo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

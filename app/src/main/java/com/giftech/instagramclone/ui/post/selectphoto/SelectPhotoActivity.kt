@@ -12,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.utils.AppUtils.rotateBitmap
 import com.giftech.instagramclone.core.utils.AppUtils.uriToFile
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivitySelectPhotoBinding
+import com.giftech.instagramclone.ui.post.addpost.AddPostActivity
 import com.giftech.instagramclone.ui.post.camera.CameraActivity
 import java.io.File
 
@@ -31,6 +33,8 @@ class SelectPhotoActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySelectPhotoBinding
     private lateinit var viewModel: SelectPhotoViewModel
 
+    private var photoFile:File? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectPhotoBinding.inflate(layoutInflater)
@@ -45,6 +49,14 @@ class SelectPhotoActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.containerHeader.btnProceed.setOnClickListener {
+            if(photoFile!=null){
+                moveToAddPost()
+            } else{
+                AppUtils.showToast(this, "You have to choose a photo")
+            }
+        }
+
         binding.btnCamera.setOnClickListener {
             openCameraX()
         }
@@ -53,6 +65,12 @@ class SelectPhotoActivity : AppCompatActivity() {
             openGallery()
         }
 
+    }
+
+    private fun moveToAddPost() {
+        val intent = Intent(this, AddPostActivity::class.java)
+        intent.putExtra(AddPostActivity.EXTRA_PHOTO_FILE, photoFile)
+        startActivity(intent)
     }
 
     private fun requestPermission() {
@@ -79,6 +97,9 @@ class SelectPhotoActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val selectedImg: Uri = result.data?.data as Uri
             val myFile = uriToFile(selectedImg, this)
+
+            photoFile = myFile
+
             binding.ivImage.setImageURI(selectedImg)
         }
     }
@@ -94,6 +115,8 @@ class SelectPhotoActivity : AppCompatActivity() {
         if (it.resultCode == CAMERA_X_RESULT) {
             val myFile = it.data?.getSerializableExtra("picture") as File
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
+
+            photoFile = myFile
 
             val result = rotateBitmap(
                 BitmapFactory.decodeFile(myFile.path),
