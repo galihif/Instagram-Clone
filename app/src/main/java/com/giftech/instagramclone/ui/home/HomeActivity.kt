@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.R
+import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityHomeBinding
 import com.giftech.instagramclone.ui.auth.login.LoginActivity
@@ -38,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getUserData() {
         val user = viewModel.getUser()
+        AppUtils.showToast(this, "Welcome ${user.username}")
     }
 
     private fun setupViewModel() {
