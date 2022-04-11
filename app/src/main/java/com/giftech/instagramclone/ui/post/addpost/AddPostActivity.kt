@@ -22,17 +22,26 @@ class AddPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        hideActionBar()
 
         setupViewmodel()
 
         getPhotoFile()
+
+        binding.header.btnBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    private fun hideActionBar() {
+        supportActionBar?.hide()
     }
 
     private fun getPhotoFile() {
         val extras = intent.extras
         val pictureFile: File? = intent.extras!![EXTRA_PHOTO_FILE] as File?
         val uri = Uri.fromFile(pictureFile)
-        binding.ivImage.setImageURI(uri)
+        binding.ivPreview.setImageURI(uri)
     }
 
     private fun setupViewmodel() {
