@@ -2,9 +2,11 @@ package com.giftech.instagramclone.ui.map
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.R
+import com.giftech.instagramclone.core.data.model.Post
+import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityMapsBinding
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -15,24 +17,49 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private lateinit var viewModel: MapsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         hideActionBar()
+        setupViewModel()
 
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
+
+        getAllPostLocation()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
+
+    private fun getAllPostLocation() {
+        viewModel.getPostWithLocation().observe(this){
+            showMarker(it)
+        }
+    }
+
+    private fun showMarker(listPost: List<Post>) {
+        listPost.map {
+            val position = LatLng(it.lat!!, it.long!!)
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(position)
+                    .title(it.caption)
+            )
+        }
+    }
+
+    private fun setupViewModel() {
+        val factory = ViewModelFactory.getInstance(this)
+        viewModel = ViewModelProvider(this,factory)[MapsViewModel::class.java]
+    }
+
 
     private fun hideActionBar() {
         supportActionBar?.hide()
@@ -49,10 +76,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isZoomGesturesEnabled = true
     }
 }
