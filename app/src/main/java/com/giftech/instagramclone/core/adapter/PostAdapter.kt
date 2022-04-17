@@ -55,7 +55,7 @@ class PostAdapter:PagingDataAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLB
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Post>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Post>() {
             override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem == newItem
             }
