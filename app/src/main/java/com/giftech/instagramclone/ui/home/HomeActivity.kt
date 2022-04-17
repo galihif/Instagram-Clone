@@ -16,6 +16,7 @@ import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityHomeBinding
 import com.giftech.instagramclone.ui.auth.login.LoginActivity
+import com.giftech.instagramclone.ui.map.MapsActivity
 import com.giftech.instagramclone.ui.post.selectphoto.SelectPhotoActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -89,8 +90,14 @@ class HomeActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.item_add -> openSelectPhoto()
             R.id.item_logout -> logOutUser()
+            R.id.item_map -> openMap()
         }
         return true
+    }
+
+    private fun openMap() {
+        val intent = Intent(this, MapsActivity::class.java)
+        startActivity(intent)
     }
 
     private fun logOutUser() {
