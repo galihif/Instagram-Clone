@@ -38,6 +38,10 @@ class RegisterActivity : AppCompatActivity() {
             if (loading) loadingDialog.show() else loadingDialog.dismiss()
         }
 
+        viewModel.error.observe(this){
+            AppUtils.showToast(this, it)
+        }
+
     }
 
     private fun setupLoading() {

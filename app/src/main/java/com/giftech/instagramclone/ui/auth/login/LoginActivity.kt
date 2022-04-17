@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.core.data.model.User
 import com.giftech.instagramclone.core.ui.LoadingDialog
+import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityLoginBinding
 import com.giftech.instagramclone.ui.auth.register.RegisterActivity
@@ -37,6 +38,10 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loading.observe(this){loading ->
             if (loading) loadingDialog.show() else loadingDialog.dismiss()
+        }
+
+        viewModel.error.observe(this){
+            AppUtils.showToast(this, it)
         }
     }
 
