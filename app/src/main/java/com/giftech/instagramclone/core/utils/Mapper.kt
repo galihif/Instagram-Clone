@@ -16,7 +16,9 @@ object Mapper {
                 id = it.id,
                 caption = it.description,
                 username = it.name,
-                photo = it.photoUrl
+                photo = it.photoUrl,
+                lat = it.lat,
+                long = it.lon
             )
         }
         return listPost
