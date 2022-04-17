@@ -142,4 +142,24 @@ class MainRepository private constructor(
         return listPost
     }
 
+    fun getPostWithLocation():LiveData<List<Post>>{
+        _loading.postValue(true)
+        val listPost = MutableLiveData<List<Post>>()
+        val token = Mapper.getBearerToken(localDataSource.getUser().token)
+        remoteDataSource.getPostWithLocation(token,
+        object : RemoteDataSource.GetPostWithLocationCallback{
+            override fun onResponse(response: List<StoryItem>) {
+                val listRes = Mapper.listStoryItemToListPost(response)
+                listPost.postValue(listRes)
+                _loading.postValue(false)
+            }
+
+            override fun onError(error: String) {
+                _loading.postValue(false)
+            }
+
+        })
+        return listPost
+    }
+
 }

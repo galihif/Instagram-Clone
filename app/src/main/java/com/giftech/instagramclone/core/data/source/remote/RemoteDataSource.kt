@@ -111,6 +111,25 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             })
     }
 
+    fun getPostWithLocation(token:String, callback: GetPostWithLocationCallback){
+        apiService.getPostWithLocation(token)
+            .enqueue(object :retrofit2.Callback<GetAllPostResponse>{
+                override fun onResponse(
+                    call: Call<GetAllPostResponse>,
+                    response: Response<GetAllPostResponse>
+                ) {
+                    if(response.isSuccessful){
+                        callback.onResponse(response.body()?.listStory!!)
+                    }
+                }
+
+                override fun onFailure(call: Call<GetAllPostResponse>, t: Throwable) {
+                    Log.d("REMOTE", t.message.toString())
+                }
+
+            })
+    }
+
     interface RegisterCallback{
         fun onResponse(response: RegisterResponse)
         fun onError(error:String)
@@ -127,6 +146,11 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
     }
 
     interface GetPostCallback{
+        fun onResponse(response: List<StoryItem>)
+        fun onError(error:String)
+    }
+
+    interface GetPostWithLocationCallback{
         fun onResponse(response: List<StoryItem>)
         fun onError(error:String)
     }
