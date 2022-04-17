@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.giftech.instagramclone.R
+import com.giftech.instagramclone.core.adapter.LoadingStateAdapter
 import com.giftech.instagramclone.core.adapter.PostAdapter
 import com.giftech.instagramclone.core.ui.LoadingDialog
 import com.giftech.instagramclone.core.utils.AppUtils
@@ -31,7 +32,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         showActionBar()
         setupViewModel()
-        setupAdapter()
         setupLoading()
         getUserData()
         getAllPost()
@@ -44,15 +44,18 @@ class HomeActivity : AppCompatActivity() {
         loadingDialog = LoadingDialog(this,false)
     }
 
-    private fun setupAdapter() {
-        adapter = PostAdapter()
-    }
 
     private fun getAllPost() {
-        viewModel.getAllPost().observe(this){
-            adapter.setList(it)
-            showListPost()
-        }
+        binding.rvPost.layoutManager = LinearLayoutManager(this)
+        val adapter = PostAdapter()
+        binding.rvPost.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        viewModel.post.observe(this,{
+            adapter.submitData(lifecycle, it)
+        })
     }
 
     private fun showListPost() {

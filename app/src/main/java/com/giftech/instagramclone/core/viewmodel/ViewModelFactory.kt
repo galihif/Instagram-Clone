@@ -18,7 +18,7 @@ class ViewModelFactory private constructor(private val mainRepository: MainRepos
     : ViewModelProvider.NewInstanceFactory(){
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
             modelClass.isAssignableFrom(SplashViewModel::class.java)->{
                 SplashViewModel(mainRepository) as T

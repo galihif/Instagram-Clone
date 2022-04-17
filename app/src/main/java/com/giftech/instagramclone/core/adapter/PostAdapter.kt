@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.utils.AppUtils
@@ -13,15 +15,7 @@ import com.giftech.instagramclone.core.utils.AppUtils.loadImage
 import com.giftech.instagramclone.databinding.ItemPostBinding
 import com.giftech.instagramclone.ui.post.detail.DetailActivity
 
-class PostAdapter:RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-
-    private var list = ArrayList<Post>()
-
-    fun setList(newList:List<Post>){
-        list.clear()
-        list.addAll(newList)
-        notifyDataSetChanged()
-    }
+class PostAdapter:PagingDataAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,11 +23,11 @@ class PostAdapter:RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = list[position]
-        holder.bind(post)
+        val post = getItem(position)
+        if (post != null) {
+            holder.bind(post)
+        }
     }
-
-    override fun getItemCount(): Int = list.size
 
     inner class PostViewHolder(private val binding: ItemPostBinding):RecyclerView.ViewHolder(binding.root) {
         fun bind(post:Post){
@@ -56,6 +50,18 @@ class PostAdapter:RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_POST, post)
                 itemView.context.startActivity(intent, optionsCompat.toBundle())
+            }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Post>() {
+            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+                return oldItem.id == newItem.id
             }
         }
     }

@@ -2,6 +2,7 @@ package com.giftech.instagramclone.core.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagingData
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.data.model.User
 import com.giftech.instagramclone.core.data.source.local.LocalDataSource
@@ -121,25 +122,29 @@ class MainRepository private constructor(
             })
         return success
     }
-
-    fun getAllPost():LiveData<List<Post>>{
-        _loading.postValue(true)
-        val listPost = MutableLiveData<List<Post>>()
+//    fun getAllPost():LiveData<List<Post>>{
+//        _loading.postValue(true)
+//        val listPost = MutableLiveData<List<Post>>()
+//        val token = Mapper.getBearerToken(localDataSource.getUser().token)
+//        remoteDataSource.getAllPost(token,
+//        object : RemoteDataSource.GetPostCallback{
+//            override fun onResponse(response: List<StoryItem>) {
+//                val listRes = Mapper.listStoryItemToListPost(response)
+//                listPost.postValue(listRes)
+//                _loading.postValue(false)
+//            }
+//
+//            override fun onError(error: String) {
+//                _loading.postValue(false)
+//            }
+//
+//        })
+//        return listPost
+//    }
+//
+    fun getAllPost():LiveData<PagingData<Post>>{
         val token = Mapper.getBearerToken(localDataSource.getUser().token)
-        remoteDataSource.getAllPost(token,
-        object : RemoteDataSource.GetPostCallback{
-            override fun onResponse(response: List<StoryItem>) {
-                val listRes = Mapper.listStoryItemToListPost(response)
-                listPost.postValue(listRes)
-                _loading.postValue(false)
-            }
-
-            override fun onError(error: String) {
-                _loading.postValue(false)
-            }
-
-        })
-        return listPost
+        return remoteDataSource.getAllPost(token)
     }
 
     fun getPostWithLocation():LiveData<List<Post>>{

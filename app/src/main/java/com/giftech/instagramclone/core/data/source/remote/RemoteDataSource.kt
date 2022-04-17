@@ -1,6 +1,13 @@
 package com.giftech.instagramclone.core.data.source.remote
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.giftech.instagramclone.core.data.PostPagingSource
+import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.data.model.User
 import com.giftech.instagramclone.core.data.source.remote.network.ApiService
 import com.giftech.instagramclone.core.data.source.remote.request.LoginRequest
@@ -92,23 +99,46 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             })
     }
 
-    fun getAllPost(token:String, callback: GetPostCallback){
-        apiService.getAllPost(token)
-            .enqueue(object :retrofit2.Callback<GetAllPostResponse>{
-                override fun onResponse(
-                    call: Call<GetAllPostResponse>,
-                    response: Response<GetAllPostResponse>
-                ) {
-                    if(response.isSuccessful){
-                        callback.onResponse(response.body()?.listStory!!)
-                    }
-                }
+//    fun getAllPost(token:String, callback: GetPostCallback){
+//        apiService.getAllPost(1,token)
+//            .enqueue(object :retrofit2.Callback<GetAllPostResponse>{
+//                override fun onResponse(
+//                    call: Call<GetAllPostResponse>,
+//                    response: Response<GetAllPostResponse>
+//                ) {
+//                    if(response.isSuccessful){
+//                        callback.onResponse(response.body()?.listStory!!)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<GetAllPostResponse>, t: Throwable) {
+//                    Log.d("REMOTE", t.message.toString())
+//                }
+//
+//            })
+//    }
+//
+//    fun getAllPost(token:String):LiveData<Result<List<StoryItem>>> = liveData {
+//        emit(Result.Loading)
+//        try {
+//            val response = apiService.getAllPost(1, token)
+//            val listStory = response.listStory
+//            emit(Result.Success(listStory))
+//        } catch (e: Exception) {
+//            Log.d("NewsRepository", "getHeadlineNews: ${e.message.toString()} ")
+//            emit(Result.Error(e.message.toString()))
+//        }
+//    }
 
-                override fun onFailure(call: Call<GetAllPostResponse>, t: Throwable) {
-                    Log.d("REMOTE", t.message.toString())
-                }
-
-            })
+    fun getAllPost(token:String):LiveData<PagingData<Post>>{
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                PostPagingSource(apiService,token)
+            }
+        ).liveData
     }
 
     fun getPostWithLocation(token:String, callback: GetPostWithLocationCallback){

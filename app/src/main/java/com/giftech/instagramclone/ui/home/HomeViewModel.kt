@@ -2,6 +2,9 @@ package com.giftech.instagramclone.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.giftech.instagramclone.core.data.MainRepository
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.data.model.User
@@ -14,6 +17,6 @@ class HomeViewModel(private val mainRepository: MainRepository):ViewModel() {
 
     fun logout() = mainRepository.logout()
 
-    fun getAllPost():LiveData<List<Post>> = mainRepository.getAllPost()
+    val post:LiveData<PagingData<Post>> = mainRepository.getAllPost().cachedIn(viewModelScope)
 
 }
