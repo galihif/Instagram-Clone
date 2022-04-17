@@ -8,5 +8,7 @@ data class Post(
     var id:String = "",
     var username:String = "",
     var caption:String = "",
-    var photo:String = ""
+    var photo:String = "",
+    var lat:Double? = null,
+    var long:Double? = null,
 ):Parcelable
