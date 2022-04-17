@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Environment
 import android.widget.ImageView
@@ -15,6 +16,7 @@ import com.giftech.instagramclone.R
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 object AppUtils {
 
@@ -26,6 +28,17 @@ object AppUtils {
 
     fun showToast(context: Context, message:String){
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    fun getCity(context: Context,lat:Double?,long: Double?):String{
+        return if(lat!=null && long !=null){
+            val geocoder = Geocoder(context, Locale.getDefault())
+            val addresses = geocoder.getFromLocation(lat, long, 1)
+            val cityName = addresses[0].adminArea
+            cityName ?: "Location Not Found"
+        } else{
+            "Location Not Found"
+        }
     }
 
     private const val FILENAME_FORMAT = "dd-MMM-yyyy"
