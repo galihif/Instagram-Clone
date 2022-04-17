@@ -33,6 +33,9 @@ class MainRepository private constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
+
     private val _isLogged = MutableLiveData<Boolean>()
     val isLogged:LiveData<Boolean> = _isLogged
 
@@ -71,6 +74,7 @@ class MainRepository private constructor(
             }
 
             override fun onError(error: String) {
+                _error.postValue(error)
                 isSuccess.postValue(false)
                 _loading.postValue(false)
             }
@@ -90,6 +94,7 @@ class MainRepository private constructor(
             }
 
             override fun onError(error: String) {
+                _error.postValue(error)
                 isSuccess.postValue(false)
                 _loading.postValue(false)
             }

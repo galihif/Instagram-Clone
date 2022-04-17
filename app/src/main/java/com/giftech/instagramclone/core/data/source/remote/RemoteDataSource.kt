@@ -11,6 +11,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import java.io.File
@@ -27,11 +28,15 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
                 ) {
                     if(response.isSuccessful){
                         callback.onResponse(response.body()!!)
+                    } else{
+                        val error = JSONObject(response.errorBody()!!.string()).getString("message")
+                        callback.onError(error)
                     }
                 }
 
                 override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                     Log.d("REMOTE", t.message.toString())
+                    callback.onError(t.message.toString())
                 }
 
             })
@@ -47,11 +52,15 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
                 ) {
                     if(response.isSuccessful){
                         callback.onResponse(response.body()?.loginResult!!)
+                    } else{
+                        val error = JSONObject(response.errorBody()!!.string()).getString("message")
+                        callback.onError(error)
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     Log.d("REMOTE", t.message.toString())
+                    callback.onError(t.message.toString())
                 }
 
             })
