@@ -72,16 +72,12 @@ class HomeViewModelTest{
     }
 
     @Test
-    fun `when logout and get user should have an empty attributes`(){
-        val emptyUser = DataDummy.generateEmptyUser()
-        Mockito.`when`(viewModel.getUser()).thenReturn(emptyUser)
-
-        val actualUser = viewModel.getUser()
+    fun `when logout` (){
+        Mockito.doNothing().`when`(viewModel).logout()
         viewModel.logout()
         Mockito.verify(viewModel).logout()
-        Mockito.verify(viewModel).getUser()
-        Assert.assertEquals(actualUser.username, emptyUser.username)
     }
+
 }
 
 val noopListUpdateCallback = object : ListUpdateCallback {
