@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.R
+import com.giftech.instagramclone.core.data.Result
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivityMapsBinding
@@ -53,7 +54,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun getAllPostLocation() {
         viewModel.getPostWithLocation().observe(this){
-            showMarker(it)
+            if(it != null){
+                when(it){
+                    is Result.Success -> {
+                        showMarker(it.data)
+                    }
+                }
+            }
         }
     }
 

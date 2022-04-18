@@ -35,8 +35,8 @@ interface ApiService {
     ):GetAllPostResponse
 
     @GET("stories?location=1")
-    fun getPostWithLocation(
+    suspend fun getPostWithLocation(
         @Header("Authorization") token: String
-    ):Call<GetAllPostResponse>
+    ):GetAllPostResponse
 
 }

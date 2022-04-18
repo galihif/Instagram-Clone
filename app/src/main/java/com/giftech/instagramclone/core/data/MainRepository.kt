@@ -9,7 +9,6 @@ import com.giftech.instagramclone.core.data.source.local.LocalDataSource
 import com.giftech.instagramclone.core.data.source.remote.RemoteDataSource
 import com.giftech.instagramclone.core.data.source.remote.response.LoginResult
 import com.giftech.instagramclone.core.data.source.remote.response.RegisterResponse
-import com.giftech.instagramclone.core.data.source.remote.response.StoryItem
 import com.giftech.instagramclone.core.data.source.remote.response.UploadPostResponse
 import com.giftech.instagramclone.core.utils.Mapper
 import java.io.File
@@ -147,24 +146,30 @@ class MainRepository private constructor(
         return remoteDataSource.getAllPost(token)
     }
 
-    fun getPostWithLocation():LiveData<List<Post>>{
-        _loading.postValue(true)
-        val listPost = MutableLiveData<List<Post>>()
+    fun getPostWithLocation():LiveData<Result<List<Post>>>{
         val token = Mapper.getBearerToken(localDataSource.getUser().token)
-        remoteDataSource.getPostWithLocation(token,
-        object : RemoteDataSource.GetPostWithLocationCallback{
-            override fun onResponse(response: List<StoryItem>) {
-                val listRes = Mapper.listStoryItemToListPost(response)
-                listPost.postValue(listRes)
-                _loading.postValue(false)
-            }
-
-            override fun onError(error: String) {
-                _loading.postValue(false)
-            }
-
-        })
-        return listPost
+        return remoteDataSource.getPostWithLocation(token)
     }
+
+
+//    fun getPostWithLocation():LiveData<List<Post>>{
+//        _loading.postValue(true)
+//        val listPost = MutableLiveData<List<Post>>()
+//        val token = Mapper.getBearerToken(localDataSource.getUser().token)
+//        remoteDataSource.getPostWithLocation(token,
+//        object : RemoteDataSource.GetPostWithLocationCallback{
+//            override fun onResponse(response: List<StoryItem>) {
+//                val listRes = Mapper.listStoryItemToListPost(response)
+//                listPost.postValue(listRes)
+//                _loading.postValue(false)
+//            }
+//
+//            override fun onError(error: String) {
+//                _loading.postValue(false)
+//            }
+//
+//        })
+//        return listPost
+//    }
 
 }
