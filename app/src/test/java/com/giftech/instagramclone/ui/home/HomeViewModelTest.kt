@@ -57,6 +57,31 @@ class HomeViewModelTest{
         Assert.assertEquals(dummyQuote[0].id, differ.snapshot()[0]?.id)
 
     }
+
+    @Test
+    fun `when getUser Should Not Null and Have Attributes`(){
+        val dummyUser = DataDummy.generateDummyUser()
+        Mockito.`when`(viewModel.getUser()).thenReturn(dummyUser)
+
+        val actualUser = viewModel.getUser()
+        Mockito.verify(viewModel).getUser()
+        Assert.assertNotNull(actualUser)
+        Assert.assertEquals(actualUser.username, dummyUser.username)
+        Assert.assertEquals(actualUser.email, dummyUser.email)
+        Assert.assertEquals(actualUser.password, dummyUser.password)
+    }
+
+    @Test
+    fun `when logout and get user should have an empty attributes`(){
+        val emptyUser = DataDummy.generateEmptyUser()
+        Mockito.`when`(viewModel.getUser()).thenReturn(emptyUser)
+
+        val actualUser = viewModel.getUser()
+        viewModel.logout()
+        Mockito.verify(viewModel).logout()
+        Mockito.verify(viewModel).getUser()
+        Assert.assertEquals(actualUser.username, emptyUser.username)
+    }
 }
 
 val noopListUpdateCallback = object : ListUpdateCallback {
