@@ -35,8 +35,8 @@ class HomeViewModelTest{
 
     @Test
     fun `when Get Post Should Not Null`() = mainCoroutineRules.runBlockingTest {
-        val dummyQuote = DataDummy.generateDummyListPost()
-        val data = PagedTestDataSources.snapshot(dummyQuote)
+        val dummyPost = DataDummy.generateDummyListPost()
+        val data = PagedTestDataSources.snapshot(dummyPost)
         val post = MutableLiveData<PagingData<Post>>()
         post.value = data
         Mockito.`when`(viewModel.post).thenReturn(post)
@@ -53,8 +53,8 @@ class HomeViewModelTest{
         advanceUntilIdle()
         Mockito.verify(viewModel).post
         Assert.assertNotNull(differ.snapshot())
-        Assert.assertEquals(dummyQuote.size, differ.snapshot().size)
-        Assert.assertEquals(dummyQuote[0].id, differ.snapshot()[0]?.id)
+        Assert.assertEquals(dummyPost.size, differ.snapshot().size)
+        Assert.assertEquals(dummyPost[0].id, differ.snapshot()[0]?.id)
 
     }
 
