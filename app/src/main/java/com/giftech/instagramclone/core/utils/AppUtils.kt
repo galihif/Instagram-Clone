@@ -34,8 +34,11 @@ object AppUtils {
         return if(lat!=null && long !=null){
             val geocoder = Geocoder(context, Locale.getDefault())
             val addresses = geocoder.getFromLocation(lat, long, 1)
-            val cityName = addresses[0].adminArea
-            cityName ?: "Location Not Found"
+            if(!addresses.isNullOrEmpty()){
+                addresses[0].adminArea
+            }else{
+                "Location Not Found"
+            }
         } else{
             "Location Not Found"
         }
