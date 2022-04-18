@@ -11,11 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.utils.AppUtils.rotateBitmap
 import com.giftech.instagramclone.core.utils.AppUtils.uriToFile
-import com.giftech.instagramclone.core.viewmodel.ViewModelFactory
 import com.giftech.instagramclone.databinding.ActivitySelectPhotoBinding
 import com.giftech.instagramclone.ui.post.addpost.AddPostActivity
 import com.giftech.instagramclone.ui.post.camera.CameraActivity
@@ -31,7 +29,6 @@ class SelectPhotoActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivitySelectPhotoBinding
-    private lateinit var viewModel: SelectPhotoViewModel
 
     private var photoFile:File? = null
 
@@ -40,8 +37,6 @@ class SelectPhotoActivity : AppCompatActivity() {
         binding = ActivitySelectPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         hideActionBar()
-
-        setupViewModel()
 
         requestPermission()
 
@@ -151,10 +146,5 @@ class SelectPhotoActivity : AppCompatActivity() {
 
     private fun hideActionBar() {
         supportActionBar?.hide()
-    }
-
-    private fun setupViewModel(){
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this,factory)[SelectPhotoViewModel::class.java]
     }
 }

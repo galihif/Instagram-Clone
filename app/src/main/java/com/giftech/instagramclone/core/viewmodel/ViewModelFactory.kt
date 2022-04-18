@@ -11,7 +11,6 @@ import com.giftech.instagramclone.ui.auth.register.RegisterViewModel
 import com.giftech.instagramclone.ui.home.HomeViewModel
 import com.giftech.instagramclone.ui.map.MapsViewModel
 import com.giftech.instagramclone.ui.post.addpost.AddPostViewModel
-import com.giftech.instagramclone.ui.post.selectphoto.SelectPhotoViewModel
 import com.giftech.instagramclone.ui.splash.SplashViewModel
 
 class ViewModelFactory private constructor(private val mainRepository: MainRepository)
@@ -31,9 +30,6 @@ class ViewModelFactory private constructor(private val mainRepository: MainRepos
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java)->{
                 HomeViewModel(mainRepository) as T
-            }
-            modelClass.isAssignableFrom(SelectPhotoViewModel::class.java)->{
-                SelectPhotoViewModel(mainRepository) as T
             }
             modelClass.isAssignableFrom(AddPostViewModel::class.java)->{
                 AddPostViewModel(mainRepository) as T
