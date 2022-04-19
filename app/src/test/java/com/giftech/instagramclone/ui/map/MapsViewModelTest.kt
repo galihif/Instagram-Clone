@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.giftech.instagramclone.DataDummy
 import com.giftech.instagramclone.core.data.MainRepository
+import com.giftech.instagramclone.core.data.Result
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.getOrAwaitValue
 import org.junit.Assert
@@ -34,13 +35,13 @@ class MapsViewModelTest {
 
     @Test
     fun `when Get Post With Location Should Not Null and Return Same Result`(){
-        val expectedPost = MutableLiveData<List<Post>>()
-        expectedPost.value = dummyPost
+        val expectedPost = MutableLiveData<Result<List<Post>>>()
+        expectedPost.value = Result.Success(dummyPost)
         `when`(mapsViewModel.getPostWithLocation()).thenReturn(expectedPost)
 
         val actualPost = mapsViewModel.getPostWithLocation().getOrAwaitValue()
         Mockito.verify(mainRepository).getPostWithLocation()
         Assert.assertNotNull(actualPost)
-        Assert.assertEquals(dummyPost.size, actualPost.size)
+        Assert.assertEquals(dummyPost.size, (actualPost as Result.Success).data.size)
     }
 }
