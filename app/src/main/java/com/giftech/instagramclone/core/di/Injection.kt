@@ -12,8 +12,9 @@ object Injection {
     fun provideRepository(context: Context):MainRepository{
         val localDataSource = provideLocalDataSource(context)
         val remoteDataSource = provideRemoteDataSource()
+        val apiService = ApiConfig.getApiService()
 
-        return MainRepository.getInstance(localDataSource, remoteDataSource)
+        return MainRepository.getInstance(localDataSource, apiService)
     }
 
     private fun provideRemoteDataSource(): RemoteDataSource {

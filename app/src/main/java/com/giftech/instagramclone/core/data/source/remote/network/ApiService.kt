@@ -8,25 +8,24 @@ import com.giftech.instagramclone.core.data.source.remote.response.RegisterRespo
 import com.giftech.instagramclone.core.data.source.remote.response.UploadPostResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
 
     @POST("register")
-    fun register(@Body body:RegisterRequest):Call<RegisterResponse>
+    suspend fun register(@Body body:RegisterRequest):RegisterResponse
 
     @POST("login")
-    fun login(@Body body:LoginRequest):Call<LoginResponse>
+    suspend fun login(@Body body:LoginRequest):LoginResponse
 
 
     @Multipart
     @POST("stories")
-    fun uploadPost(
+    suspend fun uploadPost(
         @Part file: MultipartBody.Part,
         @Part("description") description:RequestBody,
         @Header("Authorization") token: String,
-    ): Call<UploadPostResponse>
+    ): UploadPostResponse
 
     @GET("stories")
     suspend fun getAllPost(

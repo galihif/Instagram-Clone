@@ -102,37 +102,6 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             })
     }
 
-//    fun getAllPost(token:String, callback: GetPostCallback){
-//        apiService.getAllPost(1,token)
-//            .enqueue(object :retrofit2.Callback<GetAllPostResponse>{
-//                override fun onResponse(
-//                    call: Call<GetAllPostResponse>,
-//                    response: Response<GetAllPostResponse>
-//                ) {
-//                    if(response.isSuccessful){
-//                        callback.onResponse(response.body()?.listStory!!)
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<GetAllPostResponse>, t: Throwable) {
-//                    Log.d("REMOTE", t.message.toString())
-//                }
-//
-//            })
-//    }
-//
-//    fun getAllPost(token:String):LiveData<Result<List<StoryItem>>> = liveData {
-//        emit(Result.Loading)
-//        try {
-//            val response = apiService.getAllPost(1, token)
-//            val listStory = response.listStory
-//            emit(Result.Success(listStory))
-//        } catch (e: Exception) {
-//            Log.d("NewsRepository", "getHeadlineNews: ${e.message.toString()} ")
-//            emit(Result.Error(e.message.toString()))
-//        }
-//    }
-
 
     fun getPostWithLocation(token:String):LiveData<Result<List<Post>>> = liveData {
         emit(Result.Loading)
