@@ -100,6 +100,7 @@ class AddPostActivity : AppCompatActivity() {
                 if (location != null) {
                     lat = location.latitude
                     long = location.longitude
+                    showLocation(AppUtils.getCity(this, lat,long))
                     AppUtils.showToast(this, "Location Retrieved")
                 } else {
                     Toast.makeText(
@@ -118,6 +119,11 @@ class AddPostActivity : AppCompatActivity() {
             )
         }
     }
+
+    private fun showLocation(city: String) {
+        binding.tvLocation.text = city
+    }
+
     private fun setupFusedLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }

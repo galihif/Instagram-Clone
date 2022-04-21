@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginHorizontal="8dp"
+            android:background="@null"
             android:inputType="textMultiLine"
             android:gravity="top|start"
             android:scrollbars="vertical"
@@ -45,7 +46,24 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/line_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/separator"/>
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_pin"
+        android:drawablePadding="16dp"
+        android:paddingHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Your Location"
+        android:textSize="20sp"
+        android:textColor="?attr/colorPrimary"/>
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
