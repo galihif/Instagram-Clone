@@ -103,11 +103,11 @@ class MainRepository private constructor(
         return isSuccess
     }
 
-    fun uploadPost(photo: File, desc:String):LiveData<Boolean>{
+    fun uploadPost(photo: File, desc:String,lat:Double,lon:Double):LiveData<Boolean>{
         _loading.postValue(true)
         val success = MutableLiveData<Boolean>()
         val token = Mapper.getBearerToken(localDataSource.getUser().token)
-        remoteDataSource.uploadPost(photo, desc, token,
+        remoteDataSource.uploadPost(photo, desc,lat, lon,token,
             object : RemoteDataSource.UploadPostCallback{
                 override fun onResponse(response: UploadPostResponse) {
                     success.postValue(true)

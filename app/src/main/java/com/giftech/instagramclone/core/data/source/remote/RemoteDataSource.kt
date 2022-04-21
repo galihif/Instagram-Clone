@@ -76,7 +76,14 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             })
     }
 
-    fun uploadPost(photoFile: File, desc:String, token:String, callback: UploadPostCallback){
+    fun uploadPost(
+        photoFile: File,
+        desc:String,
+        lat:Double,
+        lon:Double,
+        token:String,
+        callback: UploadPostCallback
+    ){
         val description = desc.toRequestBody("text/plain".toMediaType())
         val requestImageFile = photoFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
         val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -84,7 +91,7 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             photoFile.name,
             requestImageFile
         )
-        apiService.uploadPost(imageMultipart,description,token)
+        apiService.uploadPost(imageMultipart,description,lat,lon,token)
             .enqueue(object :retrofit2.Callback<UploadPostResponse>{
                 override fun onResponse(
                     call: Call<UploadPostResponse>,

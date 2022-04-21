@@ -7,5 +7,5 @@ import java.io.File
 
 class AddPostViewModel(private val mainRepository: MainRepository):ViewModel() {
     val loading = mainRepository.loading
-    fun uploadPost(photo: File, desc:String):LiveData<Boolean> = mainRepository.uploadPost(photo, desc)
+    fun uploadPost(photo: File, desc:String,lat:Double,lon:Double):LiveData<Boolean> = mainRepository.uploadPost(photo, desc,lat,lon)
 }
