@@ -1,10 +1,12 @@
 package com.giftech.instagramclone.ui.home
 
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.giftech.instagramclone.R
@@ -15,7 +17,6 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -23,9 +24,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class HomeActivityTest {
-
-    @get:Rule
-    var activityRule = ActivityScenarioRule(HomeActivity::class.java)
 
     private val mockWebServer = MockWebServer()
 
@@ -35,13 +33,17 @@ class HomeActivityTest {
         ApiConfig.ROOT = "http://127.0.0.1:8080/"
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
     }
+
     @After
     fun tearDown() {
         mockWebServer.shutdown()
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
     }
+
     @Test
-    fun getAllPost_Success(){
+    fun getAllPost(){
+        val activityScenario = ActivityScenario.launch(HomeActivity::class.java)
+
         val mockResponse = MockResponse()
             .setResponseCode(200)
             .setBody(JsonConverter.readStringFromFile("success_response.json"))
@@ -49,7 +51,19 @@ class HomeActivityTest {
 
         onView(withId(R.id.rv_post))
             .check(matches(isDisplayed()))
-        onView(withText("bububu"))
+
+        onView(withText("bangsa"))
             .check(matches(isDisplayed()))
+
+        onView(withId(R.id.rv_post))
+            .perform(
+                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                    2
+                )
+        )
+
+        onView(withText("nubububub"))
+            .check(matches(isDisplayed()))
+
     }
 }
