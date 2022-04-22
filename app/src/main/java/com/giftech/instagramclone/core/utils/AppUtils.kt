@@ -9,6 +9,8 @@ import android.graphics.Matrix
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Environment
+import android.text.Html
+import android.text.Spanned
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -28,6 +30,10 @@ object AppUtils {
 
     fun showToast(context: Context, message:String){
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    fun getUserandCaption(username:String, caption:String):Spanned{
+        return Html.fromHtml("<b>$username</b> $caption")
     }
 
     fun getCity(context: Context,lat:Double?,long: Double?):String{

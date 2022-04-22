@@ -7,8 +7,9 @@
 
     <ImageView
         android:id="@+id/iv_profile"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/profile"/>
     <LinearLayout
         android:id="@+id/container_name_loc"
@@ -23,8 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Miles Morales"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"

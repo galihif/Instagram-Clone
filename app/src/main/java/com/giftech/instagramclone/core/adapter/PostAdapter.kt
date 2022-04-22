@@ -36,7 +36,8 @@ class PostAdapter:PagingDataAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLB
             with(binding){
                 header.tvUsername.text = post.username
                 ivImage.loadImage(post.photo)
-                tvDesc.text = post.caption
+                tvDesc.text = AppUtils.getUserandCaption(post.username, post.caption)
+
                 val location = AppUtils.getCity(itemView.context, post.lat, post.long)
                 if(location == Constant.EMPTY_LOCATION){
                     header.tvLocation.visibility = View.GONE
