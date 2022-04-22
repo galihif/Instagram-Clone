@@ -1,0 +1,9 @@
+Tes Login:
+-membuka login activity
+-type edit text email dengan email
+-type edit text password dengan password
+-klik button login
+
+Tes Get All Post
+-mengganti Api URL dengan mock web server
+-memeriksa apakah list yang tampil sesuai dengan response
