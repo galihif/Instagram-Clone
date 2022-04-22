@@ -31,18 +31,18 @@ object AppUtils {
     }
 
     fun getCity(context: Context,lat:Double?,long: Double?):String{
-        if(lat!=null && long !=null){
+        return if(lat!=null && long !=null){
             try {
                 val geocoder = Geocoder(context, Locale.getDefault())
                 val addresses = geocoder.getFromLocation(lat,long,1)
                 val city = addresses[0].adminArea
-                return city
+                city
             } catch (e:Exception){
                 e.printStackTrace()
-                return "Location Not Found"
+                Constant.EMPTY_LOCATION
             }
         } else{
-            return "Location Not Found"
+            Constant.EMPTY_LOCATION
         }
     }
 

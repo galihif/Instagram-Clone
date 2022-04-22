@@ -3,6 +3,7 @@ package com.giftech.instagramclone.core.adapter
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.giftech.instagramclone.core.data.model.Post
 import com.giftech.instagramclone.core.utils.AppUtils
 import com.giftech.instagramclone.core.utils.AppUtils.loadImage
+import com.giftech.instagramclone.core.utils.Constant
 import com.giftech.instagramclone.databinding.ItemPostBinding
 import com.giftech.instagramclone.ui.post.detail.DetailActivity
 
@@ -36,7 +38,11 @@ class PostAdapter:PagingDataAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLB
                 ivImage.loadImage(post.photo)
                 tvDesc.text = post.caption
                 val location = AppUtils.getCity(itemView.context, post.lat, post.long)
-                header.tvLocation.text = location
+                if(location == Constant.EMPTY_LOCATION){
+                    header.tvLocation.visibility = View.GONE
+                } else{
+                    header.tvLocation.text = location
+                }
             }
             itemView.setOnClickListener {
                 val optionsCompat: ActivityOptionsCompat =
