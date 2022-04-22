@@ -107,7 +107,7 @@ class FakeMainRepository constructor(
         _loading.postValue(true)
         val success = MutableLiveData<Boolean>()
         val token = Mapper.getBearerToken(localDataSource.getUser().token)
-        remoteDataSource.uploadPost(photo, desc, token,
+        remoteDataSource.uploadPost(photo, desc, 0.0,0.0,token,
             object : RemoteDataSource.UploadPostCallback{
                 override fun onResponse(response: UploadPostResponse) {
                     success.postValue(true)

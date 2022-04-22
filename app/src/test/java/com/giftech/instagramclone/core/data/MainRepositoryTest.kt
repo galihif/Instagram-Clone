@@ -17,6 +17,7 @@ import com.giftech.instagramclone.ui.home.noopListUpdateCallback
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,16 +33,15 @@ class MainRepositoryTest {
     @get:Rule
     var mainCoroutineRules = MainCoroutineRule()
 
-    private val remote = Mockito.mock(RemoteDataSource::class.java)
-    private val local = Mockito.mock(LocalDataSource::class.java)
-    private val mainRepository = FakeMainRepository(local,remote)
+    private lateinit var local:LocalDataSource
+    private lateinit var remote:RemoteDataSource
+    private lateinit var mainRepository:FakeMainRepository
 
-    @Test
-    fun login() {
-    }
-
-    @Test
-    fun register() {
+    @Before
+    fun setUp(){
+        local = Mockito.mock(LocalDataSource::class.java)
+        remote = Mockito.mock(RemoteDataSource::class.java)
+        mainRepository = FakeMainRepository(local,remote)
     }
 
     @Test

@@ -52,7 +52,7 @@ class HomeActivityTest {
         onView(withId(R.id.rv_post))
             .check(matches(isDisplayed()))
 
-        onView(withText("bangsa"))
+        onView(withText("amwal"))
             .check(matches(isDisplayed()))
 
         onView(withId(R.id.rv_post))
@@ -62,7 +62,7 @@ class HomeActivityTest {
                 )
         )
 
-        onView(withText("nubububub"))
+        onView(withText("amwal nubububub"))
             .check(matches(isDisplayed()))
 
     }

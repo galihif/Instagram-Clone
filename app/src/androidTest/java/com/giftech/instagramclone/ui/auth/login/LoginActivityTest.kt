@@ -1,5 +1,6 @@
 package com.giftech.instagramclone.ui.auth.login
 
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
@@ -31,6 +32,7 @@ class LoginActivityTest {
 
     @Test
     fun login(){
+        val activityScenario = ActivityScenario.launch(LoginActivity::class.java)
         onView(withId(R.id.et_email)).perform(typeText("miles@mail.com"))
         onView(withId(R.id.et_password)).perform(typeText("password"))
         onView(withId(R.id.btn_login)).perform(click())
